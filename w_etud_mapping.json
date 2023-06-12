@@ -1,0 +1,27 @@
+{
+    "W_ETUD_MAPPING":{
+        "CEAA":"CEAA (Certificat d'études approfondies en architecture)",
+        "DPEA":"DPEA (Diplôme propre aux ENSA)",
+        "DSA":"DSA (Diplôme de spécialisation et d'approfondissement)",
+        "MASTERE":"Mastère",
+        "MES":"MES (Mémoire de master)",
+        "RAPL":"Rapport d'études (licence)",
+        "MHMONP":"Mémoire HMONP",
+        "MEMU":"Mémoire universitaire",
+        "PFE":"PFE (Projet de fin d'études)",
+        "THES":"Thèse",
+        "TPFE":"TPFE (Travail personnel de fin d'études)",
+        "TATE":"Travaux d'ateliers"
+    },
+    "W_ETUD_RENAME":{
+        "MEME":"RAPL",
+        "TE":"TATE"
+    },
+    "OLD_SCHOOLS_MAPPING":{
+        "DEFS":"PVDS",
+        "SEIN":"PVDS",
+        "TOLB":"MLVL",
+        "PVDM":"PVDS",
+        "VILM":"MALQ"
+    }
+}

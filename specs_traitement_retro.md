@@ -5,6 +5,7 @@
   * Indicateurs = `__`
   * $a = `FR`
   * $m = `{214$d}_{099$t}_{995$b}_{001}`
+    * Pour le 099$t, MEME devient RAPL et TE devient TATE
     * Prendre le 995 avec le $5 le plus ancien
     * Si le 995 choisi a un $8 IN ["DEFS", "SEIN", "TOLB", "PVDM", "VILM"], utiliser la valeur du 995$8 plutôt que le 995$b
     * Pour le 214$d :

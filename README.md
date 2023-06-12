@@ -19,15 +19,32 @@ Enfin, cela permet de clarifier toutes les notions employées (certains types é
 
 __À établir__
 
-|Code|Libellé|
-|---|---|
-|MEME|Mémoire ENSA|
-|MHMONP|Mémoire HMONP|
-|MEMU|Mémoire universitaire|
-|MES|MES|
-|PFE|PFE|
-|THES|Thèse|
-|TPFE|TPFE|
+|Code|Libellé|Définition|
+|---|---|---|
+|MEME|Mémoire ENSA||
+|MHMONP|Mémoire HMONP||
+|MEMU|Mémoire universitaire||
+|MES|MES||
+|PFE|PFE||
+|THES|Thèse||
+|TPFE|TPFE||
+|TE|Travaux d'étudiants||
+
+
+|Code|Libellé|Définition|
+|---|---|---|
+|CEAA|CEAA (Certificat d'études approfondies en architecture)||
+|DPEA|DPEA (Diplôme propre aux ENSA)||
+|DSA|DSA (Diplôme de spécialisation et d'approfondissement)||
+|MASTERE|Mastère||
+|MES|MES (Mémoire de master)||
+|RAPL|Rapport d'études (licence)|(ancien mémoire ensa)|
+|MHMONP|Mémoire HMONP||
+|MEMU|Mémoire universitaire||
+|PFE|PFE (Projet de fin d'études)||
+|THES|Thèse||
+|TPFE|TPFE (Travail personnel de fin d'études)||
+|TATE|Travaux d'ateliers|(anciens Travaux d'étudiants)||
 
 ## Nouvelles règles de catalogage des travaux d'étudiants :
 
