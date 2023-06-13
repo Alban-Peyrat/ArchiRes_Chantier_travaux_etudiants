@@ -12,14 +12,17 @@ from datetime import datetime
 # internal imports
 import logs
 
-# Load paramaters
-dotenv.load_dotenv()
+# Need the file REGEX_328A in same same folder with the var REGEX_328A
+# Containg a list of regular expressions
 # Env var used :
 #   FILE_IN : marc file with records to edit
 #   FILE_OUT : name of the new marc file
 #   W_ETUD_MAPPING : mapping in json
-#   REGEX_328A : unescaped regular expressions for 328$a
 #   LOGS_FOLDER : folder for the .log file
+
+
+# Load paramaters
+dotenv.load_dotenv()
 
 # ----------------- Functions definition -----------------
 
@@ -34,17 +37,17 @@ def show_datafield(field):
             output += str            
     return output
 
-def get_years(record, field, subfield):
+def get_years(record, tag, code):
     """Returns a list of ints containing the first 4 consecutive numbers in the specified field-subfield.
     
     Takes as argument :
         - record : the record object
-        - field {str}
-        - subfield {str}"""
+        - tag {str}
+        - code {str}"""
     
     dates = []
-    for field in record.get_fields("214"):
-        for subfield in field.get_subfields("d"):
+    for field in record.get_fields(tag):
+        for subfield in field.get_subfields(code):
             years = re.findall("\d{4}", subfield)
             if len(years) > 0:
                 dates.append(int(years[0]))
@@ -95,7 +98,7 @@ def new_field_328(record, current_typedoc, date):
     # $d
     field_328.add_subfield("d", str(date))
 
-    return field_328
+    return field_328, False
 
 # ----------------- Mappings -----------------
 
@@ -105,8 +108,7 @@ with open(os.getenv("W_ETUD_MAPPING"), "r", encoding="utf-8") as f:
     W_ETUD_RENAME = data["W_ETUD_RENAME"]
     OLD_SCHOOLS_MAPPING = data["OLD_SCHOOLS_MAPPING"]
 
-with open(os.getenv("REGEX_328A"), "r", encoding="utf-8") as f:
-    REGEX_328A = f.readlines()
+from REGEX_328A import REGEX_328A
 
 # ----------------- Preparing Main -----------------
 
@@ -139,6 +141,11 @@ for index, record in enumerate(reader):
     logger.debug("Record is valid")
 
     # ---------- Record ----------
+
+    # Clear previous iteration field
+    field_029 = None
+    field_099 = None
+    field_328 = None
 
     # Get the biblionumber
     # Bibnb has to be in the record has the data comes from Koha
@@ -174,11 +181,12 @@ for index, record in enumerate(reader):
             item_date = item["5"]
             school = is_old_school(item)
         else:
-            if min(
-                item_date, item["5"],
-                key=lambda x: datetime.strptime(x, "%Y-%m-%d")
-                ) == item["5"]:
-                school = is_old_school(item)
+            if item_date and item["5"]:# prevents error if no date on item 
+                if min(
+                    item_date, item["5"],
+                    key=lambda x: datetime.strptime(x, "%Y-%m-%d")
+                    ) == item["5"]:
+                    school = is_old_school(item)
 
     if not school:
         logger.error(f"No item")
@@ -199,6 +207,8 @@ for index, record in enumerate(reader):
     if len(all_328) > 1:
         logger.error(f"Already has multiple 328")
         continue
+    elif len(all_328) == 0:
+        field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
     elif len(all_328) == 1:
         if all_328[0]["b"]:
             # skip if 328$b is already there
@@ -208,13 +218,11 @@ for index, record in enumerate(reader):
             continue
         else:
             for regexp in REGEX_328A:
-                if re.search(rf"{regexp}"): #rf"{}" to read the regexp raw (without double bacslashes)
-                    logger.debug(f"Does not require a new 328 : $b matched {rf'{regexp}'}")
+                if re.search(rf"{regexp}", all_328[0]["a"], re.IGNORECASE): #rf"{}" to read the regexp raw (without double bacslashes)
+                    logger.debug(f"Does not require a new 328 : $a matched {rf'{regexp}'}")
                     break
             else:
                 field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
-    else:
-        field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
     
     # Add the 328
     if field_328:

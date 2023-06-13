@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*- 
+
+REGEX_328A = [
+    r"^[^:]* : [^:]* : [^:]* : [^:]* : \d*$",
+    r"^[^:]* : [^:]* : [^:]* : \d*$",
+    r"^[^:]* : [^:]* : \d*$",
+    r"^[^/]* / [^,]*, \d*$",
+    r"^[^:]*:[^:]*:\d*$",
+    r"^[^/]*/[^,]*,\d*$",
+    r"^[^:]*:[^:]*:[^:]*:\d*$",
+    r"^[^\.]*\. [^\.]*\. [^\.]*\. \d*$",
+    r"^[^\.]*\. [^\.]*\. \d*$",
+    r"^[^-]* - [^,]*, \d*$",
+    r"^\s*Travail personnel de fin d['|’]études.*",
+    r"^\s*Travaux de fin d['|’]études.*",
+    r"^\s*Projet\s*de fin d['|’]études.*",
+    r"^\s*M[é|e]moire.*",
+    r"^\s*Mast[e|è]r.*",
+    r"^\s*MES.*",
+    r"^\s*PFE.*",
+    r"^\s*TPFE.*",
+    r"^\s*HMONP.*",
+    r"^\s*DEA.*",
+    r"^\s*DESS.*",
+    r"^\s*DPEA.*",
+    r"^[^:]*: Th[è|e]se.*",
+    r"^\s*\(?Th[è|e]se.*",
+    r"^\s*\(?Th\..*",
+    r"^\s*Doctorat.*",
+    r"^\s*M[é|e]m\..*",
+    r"^\s*Travail personnel d'étude et de recherche en paysage.*"
+]
