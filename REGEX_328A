@@ -1,0 +1,28 @@
+^[^:]* : [^:]* : [^:]* : [^:]* : \d*$
+^[^:]* : [^:]* : [^:]* : \d*$
+^[^:]* : [^:]* : \d*$
+^[^/]* / [^,]*, \d*$
+^[^:]*:[^:]*:\d*$
+^[^/]*/[^,]*,\d*$
+^[^:]*:[^:]*:[^:]*:\d*$
+^[^\.]*\. [^\.]*\. [^\.]*\. \d*$
+^[^\.]*\. [^\.]*\. \d*$
+^[^-]* - [^,]*, \d*$
+^\s*Travail personnel de fin d['|’]études.*
+^\s*Travaux de fin d['|’]études.*
+^\s*Projet\s*de fin d['|’]études.*
+^\s*M[é|e]moire.*
+^\s*Mast[e|è]r.*
+^\s*MES.*
+^\s*PFE.*
+^\s*TPFE.*
+^\s*HMONP.*
+^\s*DEA.*
+^\s*DESS.*
+^\s*DPEA.*
+^[^:]*: Th[è|e]se.*
+^\s*\(?Th[è|e]se.*
+^\s*\(?Th\..*
+^\s*Doctorat.*
+^\s*M[é|e]m\..*
+^\s*Travail personnel d'étude et de recherche en paysage.*

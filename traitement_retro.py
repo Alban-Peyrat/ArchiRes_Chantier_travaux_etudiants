@@ -18,7 +18,7 @@ dotenv.load_dotenv()
 #   FILE_IN : marc file with records to edit
 #   FILE_OUT : name of the new marc file
 #   W_ETUD_MAPPING : mapping in json
-#   W_ETUD_RENAME : rename mapping in json
+#   REGEX_328A : unescaped regular expressions for 328$a
 #   LOGS_FOLDER : folder for the .log file
 
 # ----------------- Functions definition -----------------
@@ -33,13 +33,6 @@ def show_datafield(field):
         else:
             output += str            
     return output
-
-def add_subfield(field, code, value):
-    """Adds the subfield to provided field or replace existing subfield"""
-    if (field[code]):
-        field[code] = value
-    else:
-        field.add_subfield(code, value)
 
 def get_years(record, field, subfield):
     """Returns a list of ints containing the first 4 consecutive numbers in the specified field-subfield.
@@ -56,23 +49,64 @@ def get_years(record, field, subfield):
             if len(years) > 0:
                 dates.append(int(years[0]))
     return dates
+
+def is_old_school(item):
+    """Returns the school based on the presence or not of an old school in $8.
+    
+    Takes as an argument an item field"""
+    
+    if item["8"]:
+        if item["8"] in OLD_SCHOOLS_MAPPING:
+            return item["8"]
+    
+    return item["b"]
+
+def new_field_328(record, current_typedoc, date):
+    """Generates a new MARC field 328, returns a tupple with the field and a bool (true = error).
+    
+    Takes as argument :
+        - record : the record object
+        - current_typedoc {str} : code of the previous typedoc
+        - date {int} : the date previously found"""
+    
+    field_328 = pymarc.field.Field(tag="328", indicators=[" ", "0"])
+    
+    # $b
+    field_328.add_subfield("b", W_ETUD_MAPPING[current_typedoc])
+
+    # $c
+    field_328.add_subfield("c", "Architecture")
+    
+    # $e
+    univ = None
+    for field in record.get_fields("214"):
+        if field.get_subfields("c"):
+            univ = field.get_subfields("c")[0]
+            break
+    if not univ:
+        for field in record.get_fields("210"):
+            if field.get_subfields("c"):
+                univ = field.get_subfields("c")[0]
+                break
+    if not univ:
+        return None, True
+    field_328.add_subfield("e", univ)
+
+    # $d
+    field_328.add_subfield("d", str(date))
+
+    return field_328
+
 # ----------------- Mappings -----------------
 
-errors = {
-    # "cell_nan":"At least one column has no value",
-    # "no_file":"Provided file does not exist",
-    # "get_item":"An error occured trying to get the item",
-    # "wrong_bibnb":"The biblionumber provided is different from the one associated with the item",
-    # "post_file":"An error occured trying to upload the file"
-}
-
-with open(os.getenv("W_ETUD_MAPPING"), "r+", encoding="utf-8") as f:
+with open(os.getenv("W_ETUD_MAPPING"), "r", encoding="utf-8") as f:
     data = json.load(f)
     W_ETUD_MAPPING = data["W_ETUD_MAPPING"]
     W_ETUD_RENAME = data["W_ETUD_RENAME"]
     OLD_SCHOOLS_MAPPING = data["OLD_SCHOOLS_MAPPING"]
 
-
+with open(os.getenv("REGEX_328A"), "r", encoding="utf-8") as f:
+    REGEX_328A = f.readlines()
 
 # ----------------- Preparing Main -----------------
 
@@ -102,18 +136,17 @@ for index, record in enumerate(reader):
         logger.error(f"Current chunk: {reader.current_chunk} was ignored because the following exception raised: {reader.current_exception}")
         continue
 
-    logger.info("Record is valid")
+    logger.debug("Record is valid")
 
-    # # do something with record
-    # record["200"]["a"] = "[UPDATED] " + record["200"]["a"] # → unique field
-    # print(record["200"]["a"])
-    # for field in record.get_fields("995"): # → possible multiples fields
-    #     print(field)
-    # print(record["995"])
-    
     # ---------- Record ----------
 
+    # Get the biblionumber
+    # Bibnb has to be in the record has the data comes from Koha
+    bibnb = record["001"].data
+    logger.debug(f"Biblionumber : {bibnb}")
+
     # Get current typedoc
+    # Typedoc has to be in the record as the SQL query is based on it
     field_099 = record["099"]
     current_typedoc = field_099["t"]
     # --- If this type was renamed
@@ -128,7 +161,8 @@ for index, record in enumerate(reader):
     if len(dates) == 0:
         dates = get_years(record, "210", "d")
     if len(dates) == 0:
-        logger.error("Record has no publication year")
+        logger.error(f"No publication year")
+        continue
     else:
         dates.sort()
 
@@ -138,68 +172,58 @@ for index, record in enumerate(reader):
     for item in record.get_fields("995"):
         if not item_date:
             item_date = item["5"]
-            school = item["b"]
+            school = is_old_school(item)
         else:
             if min(
                 item_date, item["5"],
                 key=lambda x: datetime.strptime(x, "%Y-%m-%d")
                 ) == item["5"]:
-                school = item["b"]
-        
-        # Je sais pas ou mettre ça
-        if item["8"]:
-            if item["8"] in OLD_SCHOOLS_MAPPING:
-                school = item["8"]
+                school = is_old_school(item)
 
-
-    # Get the biblionumber
-    bibnb = record["001"].data
+    if not school:
+        logger.error(f"No item")
+        continue
 
     # Generates disss number
-    diss_nb = f"{dates[0]}_{current_typedoc}_{''}_{bibnb}"
+    diss_nb = f"{str(dates[0])}_{current_typedoc}_{school}_{bibnb}"
+    logger.debug(f"Diss nb = {diss_nb}")
 
     # Generates new 029
     field_029 = pymarc.field.Field(tag="029", indicators=[" ", " "])
     field_029.add_subfield("a", "FR")
     field_029.add_subfield("m", diss_nb)
     record.add_field(field_029)
-    exit()
-    
-# logger.info(f"Field created : {show_datafield(field_801)}")
 
-    # Edit 099
-    for field in record.get_fields("099"):
-        # Last Sudoc import
-        field.delete_subfield("e")
-        
-        # Koha creation date
-        add_subfield(field, "c", today)
-        
-        # Koha last edit date
-        add_subfield(field, "d", today)
-        
-        # Converts item typedoc to record typedoc
-        # ATM DOES NOT APPLY PRIORITY RULES 
-        if (field["t"]):
-            field.delete_subfield("t")
-        for item in record.get_fields("995"):
-            if not (item["r"]):
-                logger.error(f"Item has no doctype : {show_datafield(item)}")
-                continue
-            if (item["r"] in TYPEDOC_mapping):
-                # Adds priority
-                # No 099$t : no need for priority
-                if not (field["t"]): 
-                    field.add_subfield("t", TYPEDOC_mapping[item["r"]])
-                else:
-                    if TYPEDOC_priority[TYPEDOC_mapping[item["r"]]] < TYPEDOC_priority[field["t"]]:
-                        field.add_subfield("t", TYPEDOC_mapping[item["r"]])
-                    else:
-                        logger.info(f"Item TYPEDOC {item['r']} has less priority than {field['t']}")
+    # Checks if a new 328 is needed
+    all_328 = record.get_fields("328")
+    if len(all_328) > 1:
+        logger.error(f"Already has multiple 328")
+        continue
+    elif len(all_328) == 1:
+        if all_328[0]["b"]:
+            # skip if 328$b is already there
+            logger.debug(f"Does not require a new 328 : $b already there")
+        elif not all_328[0]["a"]:
+            logger.error(f"328 has no $a or $b")
+            continue
+        else:
+            for regexp in REGEX_328A:
+                if re.search(rf"{regexp}"): #rf"{}" to read the regexp raw (without double bacslashes)
+                    logger.debug(f"Does not require a new 328 : $b matched {rf'{regexp}'}")
+                    break
             else:
-                logger.error(f"Item TYPEDOC is not mapped : {item['r']}")
-                continue 
-
+                field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
+    else:
+        field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
+    
+    # Add the 328
+    if field_328:
+        record.add_field(field_328)
+        logger.debug(show_datafield(field_328))
+    elif not(field_328) and err_328:
+        logger.error(f"No institution")
+        continue
+   
     logger.info("Record fully processed")
 
     # Writes the record

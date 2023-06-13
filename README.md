@@ -62,6 +62,8 @@ __À établir__
   * __$d__ = `{Année}`
   * __Le $e est avant le $d__
 
+_Les documents (peu nombreux) provenant du Sudoc ne sont actuellement pas pris en compte dans ce nouveau procédé lors de l'import de leur données_
+
 ## Rechercher sur les types de travaux d'étudiants
 
 * Pour rechercher dans Koha :
