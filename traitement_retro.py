@@ -17,6 +17,7 @@ import logs
 # Env var used :
 #   FILE_IN : marc file with records to edit
 #   FILE_OUT : name of the new marc file
+#   ERRORS_FILE : name of the csv file for errors
 #   W_ETUD_MAPPING : mapping in json
 #   LOGS_FOLDER : folder for the .log file
 
@@ -110,6 +111,16 @@ with open(os.getenv("W_ETUD_MAPPING"), "r", encoding="utf-8") as f:
 
 from REGEX_328A import REGEX_328A
 
+ERRORS = {
+    "chunk_err":"Chunk error : check logs",
+    "no_date":"No publication year",
+    "no_item":"No item",
+    "mult_328":"Already has multiple 328",
+    "no_328ab":"328 has no $a or $b",
+    "no_inst":"No institution",
+    "no_typedoc":"No typedoc"
+}
+
 # ----------------- Preparing Main -----------------
 
 # Open in and out files
@@ -119,15 +130,18 @@ reader = pymarc.MARCReader(
     to_unicode=True,
     force_utf8=True) # DON'T FORGET ME
 writer = open(os.getenv("FILE_OUT"), "wb") # DON'T FORGET ME
+errors_file = open(os.getenv("ERRORS_FILE"), "w", encoding="utf-8") # DON'T FORGET ME
 
 # Init logger
 service = "W_etud_Traitement_retro"
-logs.init_logs(os.getenv("LOGS_FOLDER"), service,'DEBUG')
+logs.init_logs(os.getenv("LOGS_FOLDER"), service,'INFO')
 logger = logging.getLogger(service)
 
 # ----------------- Main -----------------
 
 logger.info("Starting main function...")
+
+errors_file.write("record_nb;bibnb;error\n")
 
 # Loop through records
 for index, record in enumerate(reader):
@@ -136,6 +150,7 @@ for index, record in enumerate(reader):
     # If record is invalid
     if record is None:
         logger.error(f"Current chunk: {reader.current_chunk} was ignored because the following exception raised: {reader.current_exception}")
+        errors_file.write(f"{index};;{ERRORS['chunk_err']}\n")
         continue
 
     logger.debug("Record is valid")
@@ -154,7 +169,12 @@ for index, record in enumerate(reader):
 
     # Get current typedoc
     # Typedoc has to be in the record as the SQL query is based on it
+    # Yup so I was wrong :)
     field_099 = record["099"]
+    if not field_099["t"]:
+        logger.error(ERRORS["no_typedoc"])
+        errors_file.write(f"{index};{bibnb};{ERRORS['no_typedoc']}\n")
+        continue
     current_typedoc = field_099["t"]
     # --- If this type was renamed
     if current_typedoc in W_ETUD_RENAME:
@@ -168,7 +188,8 @@ for index, record in enumerate(reader):
     if len(dates) == 0:
         dates = get_years(record, "210", "d")
     if len(dates) == 0:
-        logger.error(f"No publication year")
+        logger.error(ERRORS["no_date"])
+        errors_file.write(f"{index};{bibnb};{ERRORS['no_date']}\n")
         continue
     else:
         dates.sort()
@@ -189,7 +210,8 @@ for index, record in enumerate(reader):
                     school = is_old_school(item)
 
     if not school:
-        logger.error(f"No item")
+        logger.error(ERRORS["no_item"])
+        errors_file.write(f"{index};{bibnb};{ERRORS['no_item']}\n")
         continue
 
     # Generates disss number
@@ -205,7 +227,8 @@ for index, record in enumerate(reader):
     # Checks if a new 328 is needed
     all_328 = record.get_fields("328")
     if len(all_328) > 1:
-        logger.error(f"Already has multiple 328")
+        logger.error(ERRORS["mult_328"])
+        errors_file.write(f"{index};{bibnb};{ERRORS['mult_328']}\n")
         continue
     elif len(all_328) == 0:
         field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
@@ -214,7 +237,8 @@ for index, record in enumerate(reader):
             # skip if 328$b is already there
             logger.debug(f"Does not require a new 328 : $b already there")
         elif not all_328[0]["a"]:
-            logger.error(f"328 has no $a or $b")
+            logger.error(ERRORS["no_328ab"])
+            errors_file.write(f"{index};{bibnb};{ERRORS['no_328ab']}\n")
             continue
         else:
             for regexp in REGEX_328A:
@@ -229,7 +253,8 @@ for index, record in enumerate(reader):
         record.add_field(field_328)
         logger.debug(show_datafield(field_328))
     elif not(field_328) and err_328:
-        logger.error(f"No institution")
+        logger.error(ERRORS['no_inst'])
+        errors_file.write(f"{index};{bibnb};{ERRORS['no_inst']}\n")
         continue
    
     logger.info("Record fully processed")
@@ -242,5 +267,6 @@ logger.info("Main function just ended")
 # Close in and out files
 reader.close()
 writer.close()
+errors_file.close()
 
 logger.info("<(^-^)> <(^-^)> Script fully executed without errors <(^-^)> <(^-^)>")
