@@ -43,14 +43,20 @@
                ['label' => $form->_('Types de travaux d\'étudiants'),
                 'onkeypress' => 'if (event.keyCode == 13) {$(this.form).submit();return false; }',
                 'multiOptions' => ['' => 'Tous',
-                                    'HTYP10001' => 'Mastère',
-                                    'HTYP10002' => 'Mémoire ENSA',
-                                    'HTYP10004' => 'Mémoire universitaire' ,
-                                    'HTYP10005' => 'MES',
-                                    'HTYP10003' => 'Mémoire HMONP',
-                                    'HTYP10006' => 'PFE',
-                                    'HTYP10007' => 'Thèse',
-                                    'HTYP10008' => 'TPFE'],'autocomplete'=>'off'])
+                                    'HTYP100' => 'CCJP',
+                                    'HTYP100' => 'CEAA (Certificat d\'études approfondies en architecture)',
+                                    'HTYP100' => 'CESP (Certificat d\'études supérieures paysagères)',
+                                    'HTYP100' => 'DPEA (Diplôme propre aux ENSA)',
+                                    'HTYP100' => 'DSA (Diplôme de spécialisation et d\'approfondissement)',
+                                    'HTYP100' => 'Mastère',
+                                    'HTYP100' => 'Mémoire universitaire',
+                                    'HTYP100' => 'Mémoire de master (MES)',
+                                    'HTYP100' => 'Mémoire HMONP',
+                                    'HTYP100' => 'PFE (Projet de fin d\'études)',
+                                    'HTYP100' => 'Rapport d\'études (Licence)',
+                                    'HTYP100' => 'Thèse',
+                                    'HTYP100' => 'TPFE (Travail personnel de fin d\'études)',
+                                    'HTYP100' => 'Travaux d\'ateliers'],'autocomplete'=>'off'])
 
 
 

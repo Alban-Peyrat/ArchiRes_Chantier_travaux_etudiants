@@ -59,29 +59,49 @@
     sub get_w_etud_code { my $string=shift; $string =~ /(?<=_)([^_]*)(?=_)/; $1; }
 ---
 #2. Libelle du code (plusieurs regles au cas ou plusieurs 029)
+condition : $f099t eq "TE" and $f029w eq 'CCJP'
+forceupdate :
+ $f029v : "CCJP"
+---
+condition : $f099t eq "TE" and $f029w eq 'CEAA'
+forceupdate :
+ $f029v : "CEAA (Certificat d'\x{00e9}tudes approfondies en architecture)"
+---
+condition : $f099t eq "TE" and $f029w eq 'CESP'
+forceupdate :
+ $f029v : "CESP (Certificat d'\x{00e9}tudes sup\x{00e9}rieures paysag\x{00e8}res)"
+---
+condition : $f099t eq "TE" and $f029w eq 'DPEA'
+forceupdate :
+ $f029v : "DPEA (Dipl\x{00f4}me propre aux ENSA)"
+---
+condition : $f099t eq "TE" and $f029w eq 'DSA'
+forceupdate :
+ $f029v : "DSA (Dipl\x{00f4}me de sp\x{00e9}cialisation et d'approfondissement)"
+---
 condition : $f099t eq "TE" and $f029w eq 'MASTERE'
 forceupdate :
  $f029v : "Mast\x{00e8}re"
 ---
-condition : $f099t eq "TE" and $f029w eq 'MEME'
-forceupdate :
- $f029v : "M\x{00e9}moire ENSA"
----
-condition : $f099t eq "TE" and $f029w eq 'MEMU'
-forceupdate :
- $f029v : "M\x{00e9}moire universitaire"
----
 condition : $f099t eq "TE" and $f029w eq 'MES'
 forceupdate :
- $f029v : "MES"
+ $f029v : "M\x{00e9}moire de master (MES)"
+---
+condition : $f099t eq "TE" and $f029w eq 'RAPL'
+forceupdate :
+ $f029v : "Rapport d'\x{00e9}tudes (Licence)"
 ---
 condition : $f099t eq "TE" and $f029w eq 'MHMONP'
 forceupdate :
  $f029v : "M\x{00e9}moire HMONP"
 ---
+condition : $f099t eq "TE" and $f029w eq 'MEMU'
+forceupdate :
+ $f029v : "M\x{00e9}moire universitaire"
+---
 condition : $f099t eq "TE" and $f029w eq 'PFE'
 forceupdate :
- $f029v : "PFE"
+ $f029v : "PFE (Projet de fin d'\x{00e9}tudes)"
 ---
 condition : $f099t eq "TE" and $f029w eq 'THES'
 forceupdate :
@@ -89,7 +109,11 @@ forceupdate :
 ---
 condition : $f099t eq "TE" and $f029w eq 'TPFE'
 forceupdate :
- $f029v : "TPFE"
+ $f029v : "TPFE (Travail personnel de fin d'\x{00e9}tudes)"
+---
+condition : $f099t eq "TE" and $f029w eq 'TATE'
+forceupdate :
+ $f029v : "Travaux d'ateliers"
 
 ```
 
