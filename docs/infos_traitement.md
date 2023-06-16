@@ -14,19 +14,19 @@
   * Temps de traitement : 1min 11sec
   * ~~Poids du log après le lot 1 : 9,53 mo~~
     * ~~Mais seulement 66XX notices → retirer le niveau DEBUG des logs~~
-  * Poids du log après le lot 1 (niveau INFO) : 3,44mo
+  * Poids du log (niveau INFO) : 3,44mo
   * Poids du fichier de sortie : 45,9 mo
   * Poids du fichier d'erreurs : 9ko
   * Nombre d'erreurs : 360
 * Traitement lot 2 :
   * Temps de traitement : 1min 10sec
-  * Poids du log après le lot 1 (niveau INFO) : 3,43mo
+  * Poids du log (niveau INFO) : 3,43mo
   * Poids du fichier de sortie : 44,3 mo
   * Poids du fichier d'erreurs : 93ko
   * Nombre d'erreurs : 3144
 * Traitement lot 3 :
   * Temps de traitement : 1min 12sec
-  * Poids du log après le lot 1 (niveau INFO) : 3,33mo
+  * Poids du log (niveau INFO) : 3,33mo
   * Poids du fichier de sortie : 56,9 mo
   * Poids du fichier d'erreurs : 19ko
   * Nombre d'erreurs : 669
