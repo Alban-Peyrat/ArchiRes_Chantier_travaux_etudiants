@@ -61,7 +61,7 @@
 #2. Libelle du code (plusieurs regles au cas ou plusieurs 029)
 condition : $f099t eq "TE" and $f029w eq 'CCJP'
 forceupdate :
- $f029v : "CCJP"
+ $f029v : "CCJP (Concepteur et cr\x{00e9}ateur de jardin dans le paysage)"
 ---
 condition : $f099t eq "TE" and $f029w eq 'CEAA'
 forceupdate :
@@ -93,7 +93,7 @@ forceupdate :
 ---
 condition : $f099t eq "TE" and $f029w eq 'MHMONP'
 forceupdate :
- $f029v : "M\x{00e9}moire HMONP"
+ $f029v : "M\x{00e9}moire HMONP (Habilitation \x{00e0} la ma\x{00ee}trise d'\x{0153}uvre en son nom propre)"
 ---
 condition : $f099t eq "TE" and $f029w eq 'MEMU'
 forceupdate :

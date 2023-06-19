@@ -19,7 +19,7 @@ Enfin, cela permet de clarifier toutes les notions employées (certains types é
 
 |Code|Libellé|Définition|
 |---|---|---|
-|CCJP|CCJP|Projet personnel de conception de jardin ou parc pour valider la formation professionnalisante Conception et création de jardin dans le paysage, enseignée à l'Ecole nationale supérieure de paysage (Versailles).|
+|CCJP|CCJP (Concepteur et créateur de jardin dans le paysage)|Projet personnel de conception de jardin ou parc pour valider la formation professionnalisante Conception et création de jardin dans le paysage, enseignée à l'Ecole nationale supérieure de paysage (Versailles).|
 |CEAA|CEAA (Certificat d'études approfondies en architecture)|Mémoire rédigé pour obtenir un certificat d’études approfondies en architecture, certificat qui n'est ouvert qu’aux architectes DPLG. Ces certificats, qui confèrent une spécialisation, peuvent se dérouler sur plusieurs années. Chaque école détermine les matières enseignées au sein de leur CEAA et les conditions d’admission.|
 |CESP|CESP (Certificat d'études supérieures paysagères)|Mémoire pour obtenir le Certificat d'études supérieures paysagères (CESP), formation professionnalisante en conception du paysage, enseignée à l'Ecole nationale supérieure de paysage (Versailles et Marseille). |
 |DPEA|DPEA (Diplôme propre aux ENSA)|Mémoire pour obtenir un diplôme de spécialisation aux études d'architecture, équivalent à un master spécialisé (sur bac+3)|
@@ -27,7 +27,7 @@ Enfin, cela permet de clarifier toutes les notions employées (certains types é
 |MASTERE|Mastère|Mémoire d'obtention d'un mastère, diplôme labellisé par la Conférence des Grandes Ecoles (CGE) (sur bac+4 ou bac+5)|
 |MEMU|Mémoire universitaire|Mémoire de maîtrise ou de master émanant d'universités|
 |MES|Mémoire de master (MES)|Mémoire de Master 2 ou ""mémoire de fin d'études"" (ENSA Nancy) - ENSP : Mémoire de Master TDPP (Théories et démarches du projet de paysage) : parcours du Master 2 Agrosciences, Environnement, Territoires, Paysage, Forêt de l'Université Paris-Saclay - Mémoire Master Patrimoine et création par le projet, parcours du Master 2 Humanités  et industries créatives, de l'Université CY Cergy Paris|
-|MHMONP|Mémoire HMONP|Mémoire de l’année d'Habilitation à la maîtrise d'œuvre en son nom propre) dite « 6ème année » menant à assumer les responsabilités de l'architecte en tant qu'auteur de son projet architectural. Ils sont conservés dans quelques bibliothèques, mais souvent d'accès restreints aux étudiants de ce cursus.|
+|MHMONP|Mémoire HMONP (Habilitation à la maîtrise d'œuvre en son nom propre)|Mémoire de l’année d'Habilitation à la maîtrise d'œuvre en son nom propre) dite « 6ème année » menant à assumer les responsabilités de l'architecte en tant qu'auteur de son projet architectural. Ils sont conservés dans quelques bibliothèques, mais souvent d'accès restreints aux étudiants de ce cursus.|
 |PFE|PFE (Projet de fin d'études)|Depuis la réforme des études en 2007 qui harmonise les diplômes au niveau européen ( licence, master, doctorat), l’étudiant obtient le diplôme d’Etat d’architecte ou le diplôme d'Etat de paysagiste à l’issue du master après soutenance du Projet de fin d'études (PFE).|
 |RAPL|Rapport d'études (Licence)|_(ancien Mémoire ENSA)_ Correspond également aux mémoires de TPER|
 |THES|Thèse|Thèse de doctorat soutenue à l’université dans diverses disciplines liées à l’architecture, au paysage et à l’urbanisme, ou dans les écoles d’architecture ou de paysage à l’issue du troisième cycle d’études en architecture ou en paysage|
