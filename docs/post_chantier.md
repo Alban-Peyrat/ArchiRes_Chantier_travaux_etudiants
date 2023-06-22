@@ -1,5 +1,9 @@
 # Actions à effectuer après le chantier
 
+## Corrections des erreurs ignorées pendant le traitement
+
+|||lsiter les erreurs ignorés et proposer des hypothèses de traitements
+
 ## Vérifications post-traitement
 
 * Exécuter la requête SQL permettant de vérifier qu'il ne reste plus aucun document contenant les anciens types de document : `SELECT biblionumber FROM biblioitems WHERE itemtype IN ("MEME", "MHMONP", "MEMU", "MES", "PFE", "THES", "TPFE")` (à utiliser dans le rapport ID 1334)

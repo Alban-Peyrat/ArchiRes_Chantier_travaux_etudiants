@@ -1,5 +1,14 @@
 # Demandes à effectuer auprès des prestataires
 
+Chronologie obligatoire de certaines opérations :
+
+1. Modification de _transform.yaml_ entre Koha-Bokeh
+1. Création de la facette dynamique dans Bokeh
+1. Import des notices dans Koha
+1. Mises à jour d'Elastic Search dans Koha + réindexation des notices
+1. Import total dans Bokeh
+1. Ajout des identifiants des facettes dans le formulaire de recherche avancée (+ mettre en commentaires ceux qui n'ont pas encore été générés)
+
 ## Prestataire Koha
 
 * _Affichage Koha_ Modifier la XSLT de la préférence système `XSLTDetailsDisplay` (`/home/koha/xslt/intranet/UNIMARCslim2intranetDetail.xsl`) pour afficher :
@@ -177,7 +186,7 @@ forceupdate :
 
 # --- Nouvelle valeur
 -
- condition: ($ldr7 eq "m") and ($ldr6 eq "a") and defined $f029b
+ condition: ($ldr7 eq "m") and ($ldr6 eq "a" or $ldr6 eq "l") and defined $f029b
  forceupdatefirst:
   f099t: TE
 ```
