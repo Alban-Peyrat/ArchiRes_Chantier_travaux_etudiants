@@ -55,6 +55,7 @@ Enfin, cela permet de clarifier toutes les notions employées (certains types é
   * $a = `FR`
   * $m = `{AAAA}_{code du type de travaux d'étudiant}_{code de l'école}_{biblionumber}`
     * Exemple : `2023_PFE_MLVL_123456`
+    * __Dans le cas d'une reproduction (ex : version scannée d'une version papier), mettre le biblionumber du document original__
 * 328 _Obligatoire_ :
   * Indicateurs = `_0`
   * $b = `{libellé du type de travaux d'étudiant}`

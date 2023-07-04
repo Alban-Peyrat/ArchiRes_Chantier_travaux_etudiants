@@ -2,7 +2,19 @@
 
 ## Corrections des erreurs ignorées pendant le traitement
 
-|||lsiter les erreurs ignorés et proposer des hypothèses de traitements
+* Nombre de notices illisibles : _aucun document pour le moment_
+* Nombre de notices sans type de document : corriger les notices individuellement, le nombre ne devrait pas être élevé
+* Nombre de notices sans date de publication :
+  * ???
+* Nombre de notices sans exemplaire :
+  * ???
+* Nombre de notices possédant déjà deux 328 :
+  * ???
+* Nombre de notices possédant une 328 sans $a ni $b :
+  * ???
+* Nombre de notices sans établissement de soutenance :
+  * ???
+* Les numéros nationaux de thèse pour les reproductions : utiliser le biblionumber du document original plutôt que celui de la reproduction
 
 ## Vérifications post-traitement
 

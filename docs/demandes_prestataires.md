@@ -6,7 +6,7 @@ Chronologie obligatoire de certaines opérations :
 1. Création de la facette dynamique dans Bokeh
 1. Import des notices dans Koha
 1. Mises à jour d'Elastic Search dans Koha + réindexation des notices
-1. Import total dans Bokeh
+1. ~~Import total dans Bokeh~~ _Passe dans l'import incrémentiel_
 1. Ajout des identifiants des facettes dans le formulaire de recherche avancée (+ mettre en commentaires ceux qui n'ont pas encore été générés)
 
 ## Prestataire Koha
