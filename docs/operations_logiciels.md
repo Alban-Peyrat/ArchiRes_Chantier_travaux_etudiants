@@ -24,6 +24,14 @@
   * _Profil → Propriétés des modules → Configuration du résultat de recherche → Facettes à afficher_
   * Placer _Types de travaux d'étudiants_ entre _Types de documents_ et _Bibliothèque_
 * Retirer les codes de types de documents non utilisés du profil de données `Unimarc Koha` dans le Cosmogramme
+* Modifier dans le sous menu _En ligne → Bibliothèque Numérique ArchiRès_ :
+  * Le lien pour les PFE : `/recherche/simple/expressionRecherche/*/multifacets/HTYP100{XX}/tri/annee%20desc,%20alpha_titre%20asc`
+  * Le lien pour les TPFE : `/recherche/simple/expressionRecherche/*/multifacets/HTYP100{XX}/tri/annee%20desc,%20alpha_titre%20asc`
+  * Le lien pour les mémoires (= MES) : renommer en `Accès aux mémoires de master (MES)` + `/recherche/simple/expressionRecherche/*/multifacets/HTYP100{XX}/tri/annee%20desc,%20alpha_titre%20asc`
+  * Ajouter un lien vers un site pour les HMONP : `Accès aux mémoires HMONP` : `/recherche/simple/expressionRecherche/*/multifacets/HTYP100{XX}/tri/annee%20desc,%20alpha_titre%20asc`
+
+## Dans le Git pour Bokeh
+
 * _Recherche avancée : visuel_ : Modifier dans `ensa.css` :
   * le sélecteur `.form-group.container-fluid.no-gutters.py-1.wrapper_zendafi_form_advancedsearch_custommultifacetstypedoc.default_form_wrapper_zendafi_form_advancedsearch_custommultifacetstypedoc label.multi-element-label.col-form-label.col-form-label-sm` pour rajouter un autre sélecteur (avec une virgule) :
     * `.form-group.container-fluid.no-gutters.py-1.wrapper_zendafi_form_advancedsearch_custommultifacetstypethesis.default_form_wrapper_zendafi_form_advancedsearch_custommultifacetstypethesis label.multi-element-label.col-form-label.col-form-label-sm`
@@ -64,4 +72,41 @@
 //                                   'T38-T29-T32-T30-T31-T34-T39-T40' => 'Travaux d\'étudiants',
 // Devient
                                    'T38' => 'Travaux d\'étudiants',
+```
+
+* _Affichage dans la liste des résultats_ Modifier la XSLT de la liste des résultats pour afficher entre les auteurs et l'éditeur le contenu du 029$v si la variable `typedoc` = `TE` et qu'une 029$v existe
+  * Supposément, quelque chose comme ce code doit fonctionner :
+
+``` XSLT
+<!-- À mettre entre la section Auteurs (qui est commentée) et la section Editeur -->
+<!-- ******** types de travaux étudiants *********** -->
+
+<xsl:if test="($typedoc='TE' and marc:datafield[@tag=029]/marc:subfield[@code='v'])">
+<dd><xsl:value-of select="marc:datafield[@tag=029]/marc:subfield[@code='v']"/></dd>
+</xsl:if>
+```
+
+* _Affichage dans la notice_ Modifier la XSLT des notices pour remplacer le type de documents _Travaux étudiants_ en rouge dans la notice par les types de travaux d'étudiants si le type de documents est égal à `TE`
+  * Supprimer également les lignes concernant les types de documents : MEME, MHMONP, MEMU, MES, PFE, THES, TPFE
+  * Supposément, quelque chose comme ce code doit fonctionner :
+  * _Fonctionne avec 1 029$v, notice de livre, 2 029 dont une seule avec $m (quelle que soit la position de la 029 avec le $v), une 029 sans $v_
+
+``` XSLT
+<!-- À supprimer (lignes ~4X) -->
+<xsl:when test="$typedoc='MEME'"><xsl:text>Mémoire ENSA</xsl:text></xsl:when>
+<xsl:when test="$typedoc='MEMU'"><xsl:text>Mémoire universitaire</xsl:text></xsl:when>
+<xsl:when test="$typedoc='MES'"><xsl:text>MES</xsl:text></xsl:when>
+<xsl:when test="$typedoc='MHMONP'"><xsl:text>Mémoire HMONP</xsl:text></xsl:when>
+<xsl:when test="$typedoc='PFE'"><xsl:text>PFE</xsl:text></xsl:when>
+<xsl:when test="$typedoc='THES'"><xsl:text>Thèse</xsl:text></xsl:when>
+<xsl:when test="$typedoc='TPFE'"><xsl:text>TPFE</xsl:text></xsl:when>
+<xsl:when test="$typedoc='TE'"><xsl:text>Travaux d'étudiants</xsl:text></xsl:when>
+
+<!-- Rajouter avec les autres définitions de variables (ligne 25) -->
+<xsl:variable name="diss"><xsl:value-of select="marc:datafield[@tag=029]/marc:subfield[@code='v']"/></xsl:variable>
+
+<!-- Ajouter à la fin du xsl:choose sur $typedoc (~ligne 59) -->
+<xsl:when test="($typedoc='TE' and string-length($diss) > 0)"><xsl:value-of select="$diss"/></xsl:when><!-- DOIT ÊTRE AVANT LE $typedoc = 'TE'-->
+<xsl:when test="$typedoc='TE'"><xsl:text>Travaux d'étudiants</xsl:text></xsl:when>
+
 ```
