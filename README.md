@@ -10,7 +10,7 @@ Enfin, cela permet de clarifier toutes les notions employées (certains types é
 
 ## Nombre de notice
 
-* Nombre de notices concernées par un traitement rétrospectif : 903XX notices
+* Nombre de notices concernées par un traitement rétrospectif : 93 666 notices
 * Nombre de notices du traitement rétrospectif avec une 328 : 144XX notices
   * Nombre de notices avec une 328$b : 750-800 notices
   * Nombre de notices dont le traitement rétrospectifs rajoutera une seconde 328 : 2XX notices
