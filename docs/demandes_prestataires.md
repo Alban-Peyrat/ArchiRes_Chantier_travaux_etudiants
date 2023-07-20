@@ -138,6 +138,7 @@ forceupdate :
     * __Réponse__ : risque d'être assez lent et de tomber dans les limites du protocole xeb
   * Une autre solution que je ne connais pas ?
     * __Réponse__ : import avec `bulkmarcimport`, probablement pas de limite de taille de lot
+    * Commande : `/home/koha/src/misc/migration_tools/bulkmarcimport.pl -b --update --match=Local-number,001 --filter=995 --file=/home/koha/data/ensa/mt40713/PROD_W_ETUD_1.mrc -v -l /home/koha/data/ensa/mt40713/logs/import_PROD_1.log` (voir #MT40713)
 * _Passerelle Sudoc_ Modifier dans la passerelle Sudoc-Koha `items.yaml` pour changer la condition d'attribution du 995$r = `TE` de `la 099t égale PFE ou TPFE` à `la 099t égale TE`
 
 ``` Perl

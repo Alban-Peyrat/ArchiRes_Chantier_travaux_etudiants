@@ -2,19 +2,29 @@
 
 ## Corrections des erreurs ignorées pendant le traitement
 
-* Nombre de notices illisibles : _aucun document pour le moment_
-* Nombre de notices sans type de document : corriger les notices individuellement, le nombre ne devrait pas être élevé
-* Nombre de notices sans date de publication :
+* Notices illisibles : _aucun document pour le moment_
+* Notices sans type de document : corriger les notices individuellement, le nombre ne devrait pas être élevé
+* Notices sans date de publication :
   * ???
-* Nombre de notices sans exemplaire :
+* Notices sans exemplaire :
   * ???
-* Nombre de notices possédant déjà deux 328 :
+* Notices possédant déjà deux 328 :
   * ???
-* Nombre de notices possédant une 328 sans $a ni $b :
+* Notices possédant une 328 sans $a ni $b :
   * ???
-* Nombre de notices sans établissement de soutenance :
+* Notices sans établissement de soutenance :
   * ???
+
+Une fois tout cela effectué, procéder aux modifications de suppression des types de documents dans Koha et dans Bokeh ([voir dans les opérations à effectuer](./operations_logiciels.md))
+## Modifier les notices pour mettre les nouveaux types de travaux d'étudiants
+
+## Corriger les notices cataloguées avec les nouvelles consignes avant le feu vert
+
+## Corriger les notices de reproduction
+
 * Les numéros nationaux de thèse pour les reproductions : utiliser le biblionumber du document original plutôt que celui de la reproduction
+
+## Gestion plus précise de la passerelle Sudoc
 
 ## Vérifications post-traitement
 

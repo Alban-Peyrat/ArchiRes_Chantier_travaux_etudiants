@@ -50,21 +50,21 @@
   ->addElement('multiCheckbox', 'custom_multifacets_typethesis',
                ['label' => $form->_('Types de travaux d\'étudiants'),
                 'onkeypress' => 'if (event.keyCode == 13) {$(this.form).submit();return false; }',
-                'multiOptions' => ['' => 'Tous',
+                'multiOptions' => ['T38' => 'Tous',
                                     'HTYP100' => 'CCJP (Concepteur et créateur de jardin dans le paysage)',
                                     'HTYP100' => 'CEAA (Certificat d\'études approfondies en architecture)',
                                     'HTYP100' => 'CESP (Certificat d\'études supérieures paysagères)',
                                     'HTYP100' => 'DPEA (Diplôme propre aux ENSA)',
                                     'HTYP100' => 'DSA (Diplôme de spécialisation et d\'approfondissement)',
                                     'HTYP100' => 'Mastère',
-                                    'HTYP100' => 'Mémoire universitaire',
-                                    'HTYP100' => 'Mémoire de master (MES)',
-                                    'HTYP100' => 'Mémoire HMONP (Habilitation à la maîtrise d\'œuvre en son nom propre)',
-                                    'HTYP100' => 'PFE (Projet de fin d\'études)',
-                                    'HTYP100' => 'Rapport d\'études (Licence)',
-                                    'HTYP100' => 'Thèse',
-                                    'HTYP100' => 'TPFE (Travail personnel de fin d\'études)',
-                                    'HTYP100' => 'Travaux d\'ateliers'],'autocomplete'=>'off'])
+                                    'HTYP10003' => 'Mémoire de master (MES)',
+                                    'HTYP10008' => 'Mémoire HMONP (Habilitation à la maîtrise d\'œuvre en son nom propre)',
+                                    'HTYP10007' => 'Mémoire universitaire',
+                                    'HTYP10005' => 'PFE (Projet de fin d\'études)',
+                                    'HTYP10004' => 'Rapport d\'études (Licence)',
+                                    'HTYP10002' => 'Thèse',
+                                    'HTYP10001' => 'TPFE (Travail personnel de fin d\'études)',
+                                    'HTYP10006' => 'Travaux d\'ateliers'],'autocomplete'=>'off'])
 
 
 
