@@ -74,6 +74,7 @@ _Les documents (peu nombreux) provenant du Sudoc ne sont actuellement pas pris e
   * Via son libellé, rechercher dans l'index `diss` le nom ou le sigle s'il apparaît entre parenthèse dans le libellé
     * Exemples : `renard diss:Mastère` ou `renard diss:PFE`
   * Via l'onglet `Types de travaux d'étudiants` dans la recherche avancée
+  * _Temporaire : tant que tous les types de documents n'ont pas été traité, rechercher `typedoc:{code}` pour retrouver ces cas-là_
 * Pour rechercher dans Bokeh :
   * Dans le menu de recherche avancée, utiliser le champ `Types de travaux d'étudiants` situé sous les types de documents.
     * L'utilisation de ce champ restreint forcément la liste de résultat à uniquement des documents contenant le type de docuemnt `Travaux d'étudiant`
