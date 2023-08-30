@@ -4,11 +4,13 @@
 
 [Voir les erreurs en base de production dans le fichier contenant les informations de traitement](./infos_traitement.md#erreurs-en-base-de-production)
 
+Le script permettant de traiter ces cas est [`traitement_retro_for_errors.py`](../traitement_retro_for_errors.py), une fourche de l'original.
+
 Une fois tout cela effectué, procéder aux modifications de suppression des types de documents dans Koha et dans Bokeh ([voir dans les opérations à effectuer](./operations_logiciels.md))
 
 ### Notices sans date de publication
 
-_Rajouter sur une nouvelle version du script de base ces 3 vagues à la palce de l'erreur_
+_Rajouter ces 3 vagues à la place de l'erreur_
 
 #### Première vague : 100 position 9-12
 
@@ -24,10 +26,11 @@ _Rajouter sur une nouvelle version du script de base ces 3 vagues à la palce de
 * Utiliser l'expression régulière `^\d{4}` sur les 100, ce qui récupère l'année de création de la notice
   * Doit fonctionner dans 100% des cas restants
   * Mais la date de création n'est pas forcément égale à la date de soutenance
+  * Donc __en 328, mettre la date entre crochets et avec un `?` en fin__ (nécessite de créer un flag)
 
 ### Notices sans exemplaires
 
-_Rajouter à la place de l'erreur dans la novuelle version du script_
+_Rajouter à la place de l'erreur_
 
 #### Première vague : rechercher un terme précis en 210/4$c
 
@@ -38,26 +41,28 @@ _Rajouter à la place de l'erreur dans la novuelle version du script_
 * _Ne pas faire pour les parisiennes_
 * Rechercher en 214$a/210$a le nom de la ville puis le transformer
 
-#### Troisième vage : manuel ?
+#### Troisième vague : rechercher un terme précis en 710/1/2$a
+
+* Rechercher en 710/1/2$a un terme spécifique puis le transformer (ex : nom de ville, "La Défense")
+
+#### Quatrième vage : manuel ?
 
 * Possiblement peu de résultats restants, donc les traiter manuellement
 
 ### Notices sans établissement de soutenance
 
-_Rajouter à la place de l'erreur dans la novuelle version du script_
+_Rajouter à la place de l'erreur_
 
 * Le plus simple et le plus sûr est de créer une chaîne de texte à partir du code école, mais cela peut poser problème si l'école s'appeler "EA de Nancy" auparavant : à la limite, on peut choisir plusieurs appellations en leur attribuant des périodes de temps
   * Doit fonctionner dans 100% des cas qui arrivent jusque là
 
 ### Notices possédant déjà deux 328
 
-Seulement 14 notices, traitement manuel ?
+Seulement 14 notices, traitées manuellement
 
 ### Notices possédant une 328 sans $a ni $b
 
-Seulement 19 notices, traitement manuel ?
-
-
+Seulement 19 notices, traitées manuellement
 
 ## Modifier les notices pour mettre les nouveaux types de travaux d'étudiants
 
