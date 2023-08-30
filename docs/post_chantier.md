@@ -38,7 +38,7 @@ _Rajouter à la place de l'erreur_
 
 #### Deuxième vague : rechercher un terme précis en 210/4$a
 
-* _Ne pas faire pour les parisiennes_
+* _Ne pas faire pour les parisiennes, Versailles et Marseille_
 * Rechercher en 214$a/210$a le nom de la ville puis le transformer
 
 #### Troisième vague : rechercher un terme précis en 710/1/2$a
