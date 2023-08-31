@@ -97,6 +97,10 @@ def new_field_328(record, current_typedoc, date, is_date_unsure, school):
     # ----- HANDLE ERRORS -----
     if not univ:
         univ = SCHOOL_NAMES_FROM_CODE[school]
+        if 1985 <= date and date < 2005:
+            univ = re.sub("^ENSAP*", "EA", univ)
+        elif date < 1985:
+            univ = re.sub("^ENSAP*", "Unité pédagogique d'architecture", univ)
     # ----- END OF HANDLE ERRORS -----
     if not univ:
         return None, True

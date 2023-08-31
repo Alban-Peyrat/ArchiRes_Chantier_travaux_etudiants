@@ -53,7 +53,11 @@ _Rajouter à la place de l'erreur_
 
 _Rajouter à la place de l'erreur_
 
-* Le plus simple et le plus sûr est de créer une chaîne de texte à partir du code école, mais cela peut poser problème si l'école s'appeler "EA de Nancy" auparavant : à la limite, on peut choisir plusieurs appellations en leur attribuant des périodes de temps
+* Créer une chaîne de texte à partir du code école
+  * Si la date est strictement inférieur à 1985, l'appellation `Unité pédagogique d'architecture` est utilisée
+  * Si la date est supérieure ou égale à 1985 et strictement inférieur à 2005, l'appellation `EA` est utilisée
+  * Sinon, conserve l'appelation `ENSA` / `ENSAP`
+    * _Les anciennes unités pédagogiques d'architecture, rattachées au Ministère de l'Équipement et du Logement, deviennent, en 1985, des « écoles d'architecture », qui retrouvent leur affiliation au Ministère de la Culture, puis en 2005, sont nommées « écoles nationales supérieures d'architecture » (ENSA)._
   * Doit fonctionner dans 100% des cas qui arrivent jusque là
 
 ### Notices possédant déjà deux 328
