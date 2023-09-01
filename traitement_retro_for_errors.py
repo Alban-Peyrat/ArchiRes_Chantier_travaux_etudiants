@@ -101,6 +101,7 @@ def new_field_328(record, current_typedoc, date, is_date_unsure, school):
             univ = re.sub("^ENSAP*", "EA", univ)
         elif date < 1985:
             univ = re.sub("^ENSAP*", "Unité pédagogique d'architecture", univ)
+            univ = re.sub("^EA", "Unité pédagogique d'architecture", univ)
     # ----- END OF HANDLE ERRORS -----
     if not univ:
         return None, True
@@ -181,10 +182,10 @@ def get_school_from_string(record, tag, code, extended=False):
             subfield = prep_string_for_search(subfield)
             if extended:
                 for word in SCHOOL_CODE_FROM_OTHER_WORDS:
-                    if re.search(word in subfield):
+                    if re.search(word, subfield):
                         return SCHOOL_CODE_FROM_OTHER_WORDS[word]
             for city in SCHOOL_CODE_FROM_CITY:
-                if re.search(city in subfield):
+                if re.search(city, subfield):
                     return SCHOOL_CODE_FROM_CITY[city]
     return None
 
@@ -210,7 +211,8 @@ ERRORS = {
     "mult_328":"Already has multiple 328",
     "no_328ab":"328 has no $a or $b",
     "no_inst":"No institution",
-    "no_typedoc":"No typedoc"
+    "no_typedoc":"No typedoc",
+    "wrong_typedoc":"Wrong typedoc",
 }
 
 # ----------------- Preparing Main -----------------
@@ -271,6 +273,10 @@ for index, record in enumerate(reader):
     # --- If this type was renamed
     if current_typedoc in W_ETUD_RENAME:
         current_typedoc = W_ETUD_RENAME[current_typedoc]
+    if current_typedoc not in W_ETUD_MAPPING:
+        logger.error(ERRORS["wrong_typedoc"])
+        errors_file.write(f"{index};{bibnb};{ERRORS['wrong_typedoc']}\n")
+        continue
 
     # Rewrites with typedoc
     field_099["t"] = "TE"
@@ -375,7 +381,7 @@ for index, record in enumerate(reader):
                     logger.debug(f"Does not require a new 328 : $a matched {rf'{regexp}'}")
                     break
             else:
-                field_328, err_328 = new_field_328(record, current_typedoc, dates[0])
+                field_328, err_328 = new_field_328(record, current_typedoc, dates[0], is_date_unsure, school)
     
     # Add the 328
     if field_328:
