@@ -8,6 +8,7 @@ import logging
 import pymarc
 import re
 from datetime import datetime
+import unicodedata
 
 # internal imports
 import logs
@@ -242,7 +243,7 @@ for index, record in enumerate(reader):
             continue
         else:
             for regexp in REGEX_328A:
-                if re.search(rf"{regexp}", all_328[0]["a"], re.IGNORECASE): #rf"{}" to read the regexp raw (without double bacslashes)
+                if re.search(rf"{regexp}", unicodedata.normalize("NFC", all_328[0]["a"]), re.IGNORECASE): #rf"{}" to read the regexp raw (without double bacslashes)
                     logger.debug(f"Does not require a new 328 : $a matched {rf'{regexp}'}")
                     break
             else:
