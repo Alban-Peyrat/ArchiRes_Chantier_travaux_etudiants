@@ -14,11 +14,11 @@ _Rajouter ces 3 vagues à la place de l'erreur_
 
 #### Première vague : 100 position 9-12
 
-* Récupérer la date en 100 avce l'expression régulière `(?<=^.{9})\d{4}` (chaîne de 4 chiffres après 9 caractères qui commencent l'expression) et que la date soit strictement suéprieure à 1850 → 297 matchs, resterait 1445, mais c'est la plus efficace
+* Récupérer la date en 100 avce l'expression régulière `(?<=^.{9})\d{4}` (chaîne de 4 chiffres après 9 caractères qui commencent l'expression) → 297 matchs, resterait 1445, mais c'est la plus efficace
 
 #### Deuxième vague : rechercher dans toute la 210/214 en cas d'erreur de catalogage
 
-* Transformer les 214 et 210 en une chaîne de caractères, puis utiliser l'expression régulière `\d{4}` (chaîne de 4 chiffres) pour récupère ce qui ressemble à une année → 37 pour les 214, 2 pour les 210 → c'est moins sûr mais reste pertinent de ce que j'ai vu, resterait 1398
+* Transformer les 214 et 210 en une chaîne de caractères, puis utiliser l'expression régulière `\d{4}` (chaîne de 4 chiffres) pour récupère ce qui ressemble à une année et que la date soit comprise entre 1900 et 2050 → 37 pour les 214, 2 pour les 210 → c'est moins sûr mais reste pertinent de ce que j'ai vu, resterait 1398
   * Ce qui reste à majoritairement pas de 214/210 (7 ont des 210, 132 ont des 214, 1259 aucun)
 
 #### Troisième vague : utiliser la date de création de la notice en 100
@@ -45,7 +45,7 @@ _Rajouter à la place de l'erreur_
 
 * Rechercher en 710/1/2$a un terme spécifique puis le transformer (ex : nom de ville, "La Défense")
 
-#### Quatrième vage : manuel ?
+#### Quatrième vage : manuel
 
 * Possiblement peu de résultats restants, donc les traiter manuellement
 

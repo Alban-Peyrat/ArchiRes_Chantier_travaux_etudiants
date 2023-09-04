@@ -9,6 +9,7 @@ import pymarc
 import re
 from datetime import datetime
 from unidecode import unidecode
+import unicodedata
 
 # internal imports
 import logs
@@ -110,7 +111,7 @@ def new_field_328(record, current_typedoc, date, is_date_unsure, school):
     # $d
     # ----- HANDLE ERRORS -----
     if is_date_unsure:
-        field_328.add_subfield("d", "[" + str(date) + "?]")
+        field_328.add_subfield("d", "[" + str(date) + " ?]")
     # ----- END OF HANDLE ERRORS -----
     else:    
         field_328.add_subfield("d", str(date))
@@ -149,7 +150,7 @@ def get_years_less_accurate(record, tag):
         years = re.findall("\d{4}", field.value()) # Assuming field.value() still does not return the tags and code as it should ???
         if len(years) > 0:
             dates.append(int(years[0]))
-    return dates
+    return [date for date in dates if date > 1900 and date < 2050] #https://stackoverflow.com/questions/59925384/python-remove-elements-that-are-greater-than-a-threshold-from-a-list
 
 def prep_string_for_search(_str):
     """Returns a string without punctuation, multispaces, diacritics stripped and in upper case.
@@ -212,7 +213,7 @@ ERRORS = {
     "no_328ab":"328 has no $a or $b",
     "no_inst":"No institution",
     "no_typedoc":"No typedoc",
-    "wrong_typedoc":"Wrong typedoc",
+    "wrong_typedoc":"Wrong typedoc"
 }
 
 # ----------------- Preparing Main -----------------
@@ -377,7 +378,7 @@ for index, record in enumerate(reader):
             continue
         else:
             for regexp in REGEX_328A:
-                if re.search(rf"{regexp}", all_328[0]["a"], re.IGNORECASE): #rf"{}" to read the regexp raw (without double bacslashes)
+                if re.search(rf"{regexp}", unicodedata.normalize("NFC", all_328[0]["a"]), re.IGNORECASE): #rf"{}" to read the regexp raw (without double bacslashes)
                     logger.debug(f"Does not require a new 328 : $a matched {rf'{regexp}'}")
                     break
             else:

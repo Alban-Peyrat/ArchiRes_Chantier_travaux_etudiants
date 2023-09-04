@@ -73,15 +73,17 @@ _Permet de tester [`traitement_retro_for_errors.py`](../traitement_retro_for_err
 * 1733169998 : no typedoc
 * 1733169999999 : mauvais typedoc
 * 147575 : une 214$d
-* 46152 : aucune 210/4 $d
+* _obsolète_ 46152 : aucune 210/4 $d
 * 47638 : deux 214$d
-* 141444 : aucune date en 214$d
+* _obsolète_ 141444 : aucune date en 214$d
 * 296096 : aucune 214$d mais une 210$d
 * 206638 : aucune 214$d mais plusieurs 210$d
 * _obsolète_ 181337 : aucune 214$d et aucune date en 210$d
 * 3663 : aucune 214$d ni 210$d mais une date de publication en 100$a
-* 45545 : aucune date en 214$d, pas de 210, aps de date de publication en 100$a mais une date en 214$a
-* 45546 : pas de 214, aucune date en 210$d, pas de date de publication en 100$a mais une date en 210$a
+* 45545 : aucune date en 214$d, pas de 210, aps de date de publication en 100$a mais une date en 214$a comprise entre 1900 et 2050
+* 45546 : pas de 214, aucune date en 210$d, pas de date de publication en 100$a mais une date en 210$a comprise entre 1900 et 2050
+* 455469999 : pas de 214, aucune date en 210$d, pas de date de publication en 100$a mais une date en 210$a inférieure à 1900
+* 455469998 : pas de 214, aucune date en 210$d, pas de date de publication en 100$a mais une date en 210$a supérieure à 2050
 * 48611 : pas de date en 214$d, pas de 210, pas de date de publication en 100$a, pas de date en 214 mais une date de création en 100$a
 * 65812 : pas de date en 214$d, pas de 210, pas de 100$a, pas de date en 214
 * _obsolète_ 189257 : aucun exemplaire
