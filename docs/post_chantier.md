@@ -68,6 +68,82 @@ Seulement 14 notices, traitées manuellement
 
 Seulement 19 notices, traitées manuellement
 
+### Informations sur le traitement
+
+* Nombre de notices à traiter : 4094
+* Traitement du lot :
+  * Temps de traitement : 0 min 9 sec
+  * Poids du log (niveau INFO) : 480 ko
+  * Poids du fichier de sortie : 5 352 ko
+  * Poids du fichier d'erreurs : 2 ko
+  * Nombre d'erreurs : 28
+  * Nombre de notices du fichier de sortie : __4 066__
+* Erreurs :
+  * Nombre total : __28__
+  * Nombre d'échec d'identification de l'école : 28
+    * __Ces notices seront traitées manuellement__
+
+## Vérifications post-traitement
+
+* Exécuter la requête SQL permettant de vérifier qu'il ne reste plus aucun document contenant les anciens types de document : `SELECT biblionumber FROM biblioitems WHERE itemtype IN ("MEME", "MHMONP", "MEMU", "MES", "PFE", "THES", "TPFE")` (à utiliser dans le rapport ID 1334)
+
+## Mise en place de l'automatisation des rapports de contrôle
+
+* ~~Rapport identifiant les documents sans 328 / avec une 328$a / avec une 328$b incorrecte : ID 1428 (prod) `_PYHTON_W_etudiants_sans_328`~~
+  * Certaines 328 ayant été laissées telles qu'elles, ce rapport est moins pertinent car beaucup de résultats seraient incorrects
+* Rapport identifiant les documents sans 029 ou la mauvaise forme en 029 : ID 1427 (prod) `_PYHTON_W_etudiants_sans_029.sql`
+  * Regarde cherche dans lu 029$m l'expression régulière `^\\d{4}_(CCJP|CEAA|CESP|DPEA|DSA|MASTERE|MES|MHMONP|MEMU|PFE|RAPL|THES|TPFE|TATE)_`
+
+## Mise en place d'un rapport permettant de compter le nombre de documents par types de travaux étudiants
+
+Rapport ID 1443, permet de filtrer sur l'école
+
+``` SQL
+SELECT COUNT(biblionumber) AS "Nombre de notices",
+    REGEXP_SUBSTR(ExtractValue(bm.metadata, '//datafield[@tag="029"]/subfield[@code="m"]'), "(?<=^\\d{4}_)[A-Z]+(?=_[A-Z]{4})") AS w_etud_type
+FROM biblio b
+JOIN biblio_metadata bm USING(biblionumber)
+JOIN biblioitems bi USING(biblionumber)
+
+WHERE (
+    ExtractValue(bm.metadata, '//datafield[@tag="029"]/subfield[@code="m"]') REGEXP CONCAT("^\\d{4}_(CCJP|CEAA|CESP|DPEA|DSA|MASTERE|MES|MHMONP|MEMU|PFE|RAPL|THES|TPFE|TATE)_", <<Bibliothèque |branches>>)
+    AND bi.itemtype = "TE"
+)
+
+GROUP BY w_etud_type
+
+ORDER BY w_etud_type asc
+
+/* Rapport ID (test) : 1402
+Rapport ID (prod) : 1443
+
+Compte le nombre de documents par types de travaux d'étudiants pour une école */
+```
+
+Rapport ID 1444, permet de filtrer par école ou type de travaux étudiants depuis un tableur (exporte la partie `{Type W etud}_{Code École}`)
+
+``` SQL
+SELECT COUNT(biblionumber) AS "Nombre de notices",
+    REGEXP_SUBSTR(ExtractValue(bm.metadata, '//datafield[@tag="029"]/subfield[@code="m"]'), "(?<=^\\d{4}_)[A-Z]+_[A-Z]{4}") AS w_etud_type
+FROM biblio b
+JOIN biblio_metadata bm USING(biblionumber)
+JOIN biblioitems bi USING(biblionumber)
+
+WHERE (
+    ExtractValue(bm.metadata, '//datafield[@tag="029"]/subfield[@code="m"]') REGEXP "^\\d{4}_(CCJP|CEAA|CESP|DPEA|DSA|MASTERE|MES|MHMONP|MEMU|PFE|RAPL|THES|TPFE|TATE)_"
+    AND bi.itemtype = "TE"
+)
+
+GROUP BY w_etud_type
+
+ORDER BY w_etud_type asc
+
+/* Rapport ID (test) : 1402
+Rapport ID (prod) : 1444
+
+Compte le nombre de documents par types de travaux d'étudiants */
+```
+
 ## Modifier les notices pour mettre les nouveaux types de travaux d'étudiants
 
 ## Corriger les notices cataloguées avec les nouvelles consignes avant le feu vert
@@ -78,13 +154,3 @@ Seulement 19 notices, traitées manuellement
 
 ## Gestion plus précise de la passerelle Sudoc
 
-## Vérifications post-traitement
-
-* Exécuter la requête SQL permettant de vérifier qu'il ne reste plus aucun document contenant les anciens types de document : `SELECT biblionumber FROM biblioitems WHERE itemtype IN ("MEME", "MHMONP", "MEMU", "MES", "PFE", "THES", "TPFE")` (à utiliser dans le rapport ID 1334)
-
-## Mise en place de l'automatisation des rapports de contrôle
-
-* Rapport identifiant les documents sans 328 / avec une 328$a / avec une 328$b oncorrecte : ID 1428 (prod) `_PYHTON_W_etudiants_sans_328`
-  * À finaliser quand le mapping sera fini
-* Rapport identifiant les documents sans 029 ou la mauvaise forme en 029 : ID 1427 (prod) `_PYHTON_W_etudiants_sans_029.sql`
-  * À finaliser avec le mapping, pour remplacer `^\d{4}_[A-Z]+_` par `^\d{4}_(TPFE|MEMU|MASTERE|PFE)_` en remplissant la liste des codes valides
