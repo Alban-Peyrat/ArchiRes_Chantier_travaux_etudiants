@@ -56,7 +56,7 @@
                                     'HTYP100' => 'CESP (Certificat d\'études supérieures paysagères)',
                                     'HTYP100' => 'DPEA (Diplôme propre aux ENSA)',
                                     'HTYP100' => 'DSA (Diplôme de spécialisation et d\'approfondissement)',
-                                    'HTYP100' => 'Mastère',
+                                    'HTYP10009' => 'Mastère',
                                     'HTYP10003' => 'Mémoire de master (MES)',
                                     'HTYP10008' => 'Mémoire HMONP (Habilitation à la maîtrise d\'œuvre en son nom propre)',
                                     'HTYP10007' => 'Mémoire universitaire',
