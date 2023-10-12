@@ -154,3 +154,33 @@ Compte le nombre de documents par types de travaux d'étudiants */
 
 ## Gestion plus précise de la passerelle Sudoc
 
+## Corrections de numéros de mémoire incorrectement renseignés en `029$b`
+
+* Identifier les notices concernées avec le rapport ID 1452
+  * Les documents du type de document `Travaux étudiants`
+  * Et possédant au moins une `029$b` commençant par `{Année en 4 chiffres}_{Codes types de travaux étudiants}_`
+  * Et ne possédant aucune `029$m`
+* Exporter la liste
+* Dans _Outils → Modifications de notices par lot_, sélectionner notice et renseigner la liste
+* Les modifier à l'aide du modèle de transformation MARC `ADM_W_ETUD_fix_029b_in_029m` :
+  * Déplacer chaque champ 029$b dans le champ 029$m
+  * si champ 029$b correspond à l'expression régulière `^\d{4}_(CCJP|CEAA|CESP|DPEA|DSA|MASTERE|MES|MHMONP|MEMU|PFE|RAPL|THES|TPFE|TATE)_`
+  * Description : Transforme la 029$b en 029$m si le début correspond à la forme des numéros ArchiRès
+  * _Si plusieurs 029$b étaient présentes, la dernière sera réécrite sur toutes les 029$m_
+
+``` SQL
+/* Rapport 1452 */
+SELECT biblionumber
+
+FROM biblio b
+JOIN biblio_metadata bm USING(biblionumber)
+JOIN biblioitems bi USING(biblionumber)
+
+WHERE (
+    ExtractValue(bm.metadata, '//datafield[@tag="029"]/subfield[@code="b"]') REGEXP "^\\d{4}_(CCJP|CEAA|CESP|DPEA|DSA|MASTERE|MES|MHMONP|MEMU|PFE|RAPL|THES|TPFE|TATE)_"
+    AND ExtractValue(bm.metadata, '//datafield[@tag="029"]/subfield[@code="m"]') = ""
+    AND bi.itemtype = "TE"
+)
+
+/* Identifie les travaux étudiants avec une 029$b de type numéro ArchiRès à la place de 029 */
+```
