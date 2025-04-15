@@ -176,17 +176,17 @@ class Archires_W_Etud_Util(object):
             - [optional] theme : the theme for $c, defaults to Architecture
             - [optional] is_date_unsure : if the date is unsure, default to False"""
         
-        field = Field("328", indicators=Indicators(" ", "0"))
+        new_field = Field("328", indicators=Indicators(" ", "0"))
         
         # $b
         w_etud_name = self.get_w_etud_name(w_etud_code)
         # Safety check
         if not w_etud_name:
             return None
-        field.add_subfield("b", w_etud_name)
+        new_field.add_subfield("b", w_etud_name)
 
         # $c
-        field.add_subfield("c", theme)
+        new_field.add_subfield("c", theme)
         
         # $e
         univ = None
@@ -219,15 +219,15 @@ class Archires_W_Etud_Util(object):
         # if still no university name, leave
         if not univ:
             return None
-        field.add_subfield("e", univ)
+        new_field.add_subfield("e", univ)
 
         # $d
         if is_date_unsure:
-            field.add_subfield("d",f"[{str(date)} ?]")
+            new_field.add_subfield("d",f"[{str(date)} ?]")
         else:    
-            field.add_subfield("d", str(date))
+            new_field.add_subfield("d", str(date))
 
-        return field
+        return new_field
     
     # -------------------- Get data from a record --------------------
 
